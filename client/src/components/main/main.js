@@ -11,6 +11,12 @@ const Main = () => {
     const [showForm, setShowForm] = useState(false);
     const [showAuthGroups, setShowAuthGroups] = useState([false, false]);
     const [showButton, setShowButton] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleLoginClick = () => {
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000);
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -66,7 +72,7 @@ const Main = () => {
                             </svg>
                             <input className="auth-input" type="password" placeholder="Password" />
                         </div>
-                        <button className="auth-btn" style={{ opacity: showButton ? 1 : 0, transition: 'opacity 0.5s ease-in-out 1s' }}>Login</button>
+                        <button className="auth-btn" style={{ opacity: showButton ? 1 : 0, transition: 'opacity 0.5s ease-in-out 1s' }} onClick={handleLoginClick}>Login</button>
                     </div>
                 </div>
                 <div className="main-header-flex">
@@ -87,6 +93,13 @@ const Main = () => {
             </div>
             {/* <SliderComponent /> */}
             {/* <Filter /> */}
+            {showPopup && (
+                <div className="popup">
+                    <div className="popup-content">
+                        Временно недоступно
+                    </div>
+                </div>
+            )}
         </div>
     )
 
