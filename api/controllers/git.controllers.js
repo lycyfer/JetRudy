@@ -15,15 +15,20 @@ export const getAllRepositories = async (req, res) => {
     }
 };
 
-export const getRepositoryByName = async (name) => {
+export const getRepositoryByName = async (req, res) => {
     try {
-        const repository = await prisma.repository.findUnique({
-            where: { name },
+        const { name } = req.query;
+        const repositories = await prisma.repository.findMany({
+            where: {
+                name: {
+                    contains: name,
+                },
+            },
         });
-        return repository;
+        res.status(200).json(repositories);
     } catch (err) {
-        console.error('Error fetching repository by name:', err);
-        throw err;
+        console.error('Error fetching repositories by name:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
@@ -32,7 +37,7 @@ export const getRepositoryById = async (id) => {
         const repository = await prisma.repository.findUnique({
             where: { id },
         });
-        return repository;
+        res.status(200).json(repository)
     } catch (err) {
         console.error('Error fetching repository by ID:', err);
         throw err;
